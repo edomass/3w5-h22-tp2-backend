@@ -13,24 +13,24 @@ jobs:
       - run: cd ./3w5-h22-tp2-frontend && npm run build
       - run: cd ./3w5-h22-tp2-backend && mkdir public
       - run: cp * -rt ./3w5-h22-tp2-frontend/build ./3w5-h22-tp2-backend/public
+      - persist_to_worspace:
+              root: .
+              paths:
+                - ./3w5-h22-tp2-backend
   deploy:
     machine: true
     steps:
+      - attach_worspace:
+            at: .
       - run: cd ./3w5-h22-tp2-backend && ls -Rl
 workflows:
   build:
     jobs:
       - node/test
       - integratedFrontend:
-          persist_to_worspace:
-              root: .
-              paths:
-                - ./3w5-h22-tp2-backend
           requires:
             - node/test
       - deploy:
-          attach_worspace:
-            at: .
           requires:
             - integratedFrontend
           
