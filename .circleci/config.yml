@@ -3,14 +3,6 @@ orbs:
   node: circleci/node@5.0.0
 
 jobs:
-  checkoutAndTest:
-    machine: true
-    steps:
-      - checkout
-      - run: node --version
-      - run: npm --version
-      - run: npm install
-      - run: npm run test
   integratedFrontend:
     docker:
       - image: cimg/node:15.8.0
@@ -34,10 +26,10 @@ jobs:
 workflows:
   build:
     jobs:
-      - checkoutAndTest
+      - node/test
       - integratedFrontend:
           requires:
-            - checkoutAndTest
+            - node/test
       - deploy:
           requires:
             - integratedFrontend
