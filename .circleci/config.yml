@@ -1,0 +1,36 @@
+version: 2.1
+
+jobs:
+  integratedFrontend:
+    docker:
+      - image: cimg/node:15.8.0
+    steps:
+      - run: git clone https://github.com/edomass/3w5-h22-tp2-backend.git
+      - run: git clone https://github.com/edomass/3w5-h22-tp2-frontend.git
+      - run: cd ./3w5-h22-tp2-frontend && npm i
+      - run: cd ./3w5-h22-tp2-frontend && npm run build
+      - run: cd ./3w5-h22-tp2-backend && mkdir public
+      - run: cp * -rt ./3w5-h22-tp2-frontend/build ./3w5-h22-tp2-backend/public
+  deploy:
+    machine: true
+    steps:
+      - run: cd ./3w5-h22-tp2-backend && ls -Rl
+workflows:
+  monWorkflow:
+    jobs:
+      - node/test
+      - integratedFrontend:
+          persist_to_worspace:
+              root: .
+              paths:
+                - ./3w5-h22-tp2-backend
+          requires:
+            - node/test
+      - deploy:
+          attach_worspace:
+            at: .
+          requires:
+            - integratedFrontend
+          
+      
+
