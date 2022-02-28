@@ -16,7 +16,7 @@ jobs:
     steps:
       - run: cd ./3w5-h22-tp2-backend && ls -Rl
 workflows:
-  monWorkflow:
+  build:
     jobs:
       - node/test
       - integratedFrontend:
