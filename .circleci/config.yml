@@ -7,6 +7,9 @@ jobs:
     machine: true
     steps:
       - checkout
+      - run: node --version
+      - run: npm --version
+      - run: npm install
       - run: npm run test
   integratedFrontend:
     docker:
