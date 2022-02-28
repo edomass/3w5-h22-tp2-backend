@@ -3,6 +3,11 @@ orbs:
   node: circleci/node@5.0.0
 
 jobs:
+  checkoutAndTest:
+    machine: true
+    steps:
+      - checkout
+      - run: npm run test
   integratedFrontend:
     docker:
       - image: cimg/node:15.8.0
@@ -26,7 +31,7 @@ jobs:
 workflows:
   build:
     jobs:
-      - node/test
+      - checkoutAndTest
       - integratedFrontend:
           requires:
             - node/test
