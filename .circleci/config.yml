@@ -34,7 +34,7 @@ workflows:
       - checkoutAndTest
       - integratedFrontend:
           requires:
-            - node/test
+            - checkoutAndTest
       - deploy:
           requires:
             - integratedFrontend
